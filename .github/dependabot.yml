@@ -1,0 +1,39 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    ignore:
+      # Hold Next.js at 16.1.7 until the upstream regression is resolved.
+      # https://github.com/vercel/next.js/issues/91396
+      # https://github.com/vercel/next.js/pull/91704
+      - dependency-name: "next"
+        versions:
+          - ">=16.2.0"
+      - dependency-name: "@next/third-parties"
+        versions:
+          - ">=16.2.0"
+      # typescript 7 is blocked until typescript-eslint supports it. The
+      # typescript-eslint parser requires TypeScript's in-process JS compiler
+      # API, which typescript@7 no longer exposes from its main entry point,
+      # so ESLint crashes at startup. Revisit once typescript-eslint adds
+      # support (typescript@7 ships a new API under "typescript/unstable/*").
+      - dependency-name: "typescript"
+        update-types:
+          - "version-update:semver-major"
+    groups:
+      npm-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - "*"

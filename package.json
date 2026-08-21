@@ -1,0 +1,27 @@
+{
+  "name": "digest-engine-marketing",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=24.8.0",
+    "pnpm": ">=11.1.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:marketing": "turbo dev --filter=@digestengine/marketing",
+    "dev:studio": "turbo dev --filter=@digestengine/studio",
+    "build": "turbo build",
+    "clean": "rm -rf .next .turbo out tsconfig.tsbuildinfo apps/marketing/.next apps/marketing/.turbo apps/marketing/out apps/studio/.next apps/studio/.turbo apps/studio/out",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "format": "turbo format",
+    "format:check": "turbo format:check",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "turbo": "^2.10.9"
+  }
+}

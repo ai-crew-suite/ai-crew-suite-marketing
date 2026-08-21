@@ -1,0 +1,310 @@
+/**
+ * Project-owned styling for rendered rich text content.
+ *
+ * The docs and blog routes now render Portable Text instead of delegating
+ * markdown presentation to Nextra. This layer owns the layout, spacing, and
+ * element treatments for that HTML output directly.
+ */
+
+.markdown-content {
+  color: var(--color-content);
+  width: 100%;
+}
+
+.markdown-content > :first-child {
+  margin-top: 0;
+}
+
+.markdown-content > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-content :is(p, ul, ol, pre, blockquote, figure, table, hr) {
+  margin-block: 1.25rem;
+}
+
+.markdown-content :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-secondary);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  margin-bottom: 0.75rem;
+  margin-top: 2rem;
+  scroll-margin-top: 7rem;
+}
+
+.markdown-content h1 {
+  font-size: var(--font-size-4xl);
+  line-height: 1;
+}
+
+.markdown-content h2 {
+  font-size: var(--font-size-3xl);
+  line-height: 1.05;
+}
+
+.markdown-content h3 {
+  font-size: var(--font-size-2xl);
+  line-height: 1.1;
+}
+
+.markdown-content h4 {
+  font-size: var(--font-size-xl);
+}
+
+.markdown-content :is(h5, h6) {
+  color: var(--color-content-active);
+  font-size: var(--font-size-lg);
+}
+
+.markdown-content p {
+  color: var(--color-content);
+  line-height: 1.8;
+}
+
+.markdown-content a {
+  color: var(--color-content-active);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 28%, transparent);
+  text-decoration-style: dotted;
+  text-underline-offset: 0.18em;
+}
+
+.markdown-content a:hover,
+.markdown-content a:focus-visible {
+  color: var(--color-primary);
+  text-decoration-color: currentColor;
+}
+
+.markdown-content :is(ul, ol) {
+  color: var(--color-content);
+  margin-inline-start: 1.5rem;
+  padding-inline-start: 0.4rem;
+}
+
+.markdown-content ul {
+  list-style: disc;
+}
+
+.markdown-content ol {
+  list-style: decimal;
+}
+
+.markdown-content li + li {
+  margin-top: 0.45rem;
+}
+
+.markdown-content li > :is(p, ul, ol) {
+  margin-block: 0.65rem;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid var(--color-trim-offset);
+  color: var(--color-content-active);
+  margin-inline: 0;
+  padding-left: 1rem;
+}
+
+.markdown-content hr {
+  border: 0;
+  border-top: 1px solid var(--color-trim-offset);
+}
+
+.markdown-content :not(pre) > code {
+  background-color: color-mix(in srgb, var(--color-page-offset) 88%, white);
+  border: 1px solid var(--color-trim-offset);
+  border-radius: 0.45rem;
+  color: var(--color-content-active);
+  padding: 0.12rem 0.38rem;
+}
+
+.markdown-content pre {
+  background-color: color-mix(in srgb, var(--color-page-offset) 92%, black 3%);
+  border: 1px solid var(--color-trim-offset);
+  border-radius: 1rem;
+  color: var(--color-content-active);
+  overflow-x: auto;
+  padding: 1rem 1.1rem;
+}
+
+.markdown-content pre code {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  padding: 0;
+}
+
+.markdown-content img {
+  border-radius: 1rem;
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.markdown-content table {
+  border-collapse: collapse;
+  max-width: 100%;
+  width: 100%;
+}
+
+.markdown-content :is(th, td) {
+  border-bottom: 1px solid var(--color-trim-offset);
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-content th {
+  color: var(--color-content-active);
+  font-weight: var(--font-weight-semibold);
+}
+
+/**
+ * Prevent Mermaid diagram text from clipping at foreignObject boundaries.
+ *
+ * rehype-mermaid computes foreignObject dimensions during build-time rendering
+ * in Playwright headless Chromium. Slight font-metric differences between the
+ * build environment and the user's browser cause text to overflow its container
+ * by a few pixels. Allowing overflow prevents the last characters from being
+ * clipped while keeping the node background shapes correctly sized.
+ */
+.markdown-content svg[id^="mermaid-"] foreignObject {
+  overflow: visible;
+}
+
+.markdown-content [id^="mermaid-"] foreignObject > div {
+  overflow: visible;
+}
+
+/**
+ * Footnote reference numbers should not have dotted underlines.
+ */
+.markdown-content sup a[data-footnote-ref],
+.markdown-content sup a.footnote-ref,
+.markdown-content sup a[data-footnote-ref]:hover,
+.markdown-content sup a.footnote-ref:hover {
+  text-decoration: none;
+}
+
+/**
+ * Footnote backref icon links should stay unadorned and use the active text
+ * color on hover so they fit the rest of the docs theme.
+ */
+.markdown-content a[data-footnote-backref],
+.markdown-content a.footnote-backref {
+  display: inline-block;
+  text-decoration: none;
+  transition: color 150ms ease, transform 150ms ease;
+}
+
+.markdown-content a[data-footnote-backref]:hover,
+.markdown-content a[data-footnote-backref]:focus-visible,
+.markdown-content a.footnote-backref:hover,
+.markdown-content a.footnote-backref:focus-visible {
+  color: var(--color-content-active);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/**
+ * Add a soft separator above the generated footnotes section.
+ */
+.markdown-content section[data-footnotes] {
+  border-top: 1px solid var(--color-trim-offset);
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+/**
+ * Space subscript slightly off content.
+ */
+.markdown-content sub {
+  margin-left: 0.15rem;
+}
+
+/**
+ * Tailwind preflight makes SVG elements block-level, which breaks inline
+ * MathJax output inside prose.
+ */
+.markdown-content mjx-container svg {
+  display: inline-block;
+}
+
+/**
+ * Let captioned tables scroll horizontally instead of clipping on narrow
+ * viewports.
+ */
+.markdown-content figure:has(> table) {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/**
+ * Portable text preserves GitHub-style task list markup, so we own both the
+ * layout and the checkbox treatment here.
+ */
+.markdown-content li.task-list-item {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.6rem;
+  list-style: none;
+}
+
+.markdown-content li.task-list-item > input[type='checkbox'] {
+  appearance: none;
+  background-color: var(--color-page-offset);
+  background-image: none;
+  border: 2px solid var(--color-content-offset);
+  border-radius: var(--radius-sm, 0.25rem);
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: 0 0 auto;
+  height: 1.15em;
+  margin-top: 0.25em;
+  place-content: center;
+  width: 1.15em;
+}
+
+.markdown-content li.task-list-item > input[type='checkbox']::before {
+  border-bottom: 0.18em solid var(--color-content-inverse);
+  border-right: 0.18em solid var(--color-content-inverse);
+  content: '';
+  height: 0.55em;
+  opacity: 0;
+  transform: rotate(45deg);
+  width: 0.35em;
+}
+
+.markdown-content li.task-list-item > input[type='checkbox']:checked {
+  background-color: var(--color-success);
+  background-image: none;
+  border-color: var(--color-success);
+}
+
+.markdown-content li.task-list-item > input[type='checkbox']:checked::before {
+  opacity: 1;
+}
+
+.markdown-content li.task-list-item > input[type='checkbox']:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.markdown-content li.task-list-item > input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--color-spotlight);
+  outline-offset: 2px;
+}
+
+@media (width <= 26em) {
+  .markdown-content h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .markdown-content h2 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .markdown-content h3 {
+    font-size: var(--font-size-xl);
+  }
+}
