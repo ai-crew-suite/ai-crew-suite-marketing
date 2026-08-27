@@ -2,19 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageSection } from "@/components/Section";
-import { getCookiesPageContent } from "@/sanity/queries/cookiesPage";
+import { defaultCookiesPageContent } from "@/lib/cookiesDefaults";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCookiesPageContent();
-
+export function generateMetadata(): Metadata {
   return {
-    title: content.metadata.title,
-    description: content.metadata.description,
+    title: defaultCookiesPageContent.metadata.title,
+    description: defaultCookiesPageContent.metadata.description,
   };
 }
 
-export default async function CookiesPage() {
-  const content = await getCookiesPageContent();
+export default function CookiesPage() {
+  const content = defaultCookiesPageContent;
 
   return (
     <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-5 pt-24 md:gap-6">
