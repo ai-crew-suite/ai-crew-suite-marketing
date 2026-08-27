@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Orbit, PanelsTopLeft, ShieldCheck } from "lucide-react";
+import { BookOpen, Orbit, PanelsTopLeft, ShieldCheck, Zap, Cog } from "lucide-react";
 
 import { PageSection } from "@/components/Section";
 import { Button } from "@/components/shared/button";
-import {
-  getDocsPageContent,
-  type DocsHighlightIconKey,
-} from "@/sanity/queries/docsPage";
+import { defaultDocsPageContent } from "@/lib/docsDefaults";
 
-const docsHighlightIcons: Record<DocsHighlightIconKey, typeof PanelsTopLeft> = {
+const docsHighlightIcons = {
   panelsTopLeft: PanelsTopLeft,
   orbit: Orbit,
   bookOpen: BookOpen,
   shieldCheck: ShieldCheck,
+  zap: Zap,
+  cog: Cog,
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getDocsPageContent();
+  const content = defaultDocsPageContent;
 
   return {
     title: content.metadata.title,
@@ -26,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DocsHomePage() {
-  const content = await getDocsPageContent();
+  const content = defaultDocsPageContent;
 
   return (
     <main className="relative mx-auto flex w-full flex-col gap-5 pt-24 md:gap-6">
@@ -83,7 +82,7 @@ export default async function DocsHomePage() {
                   </div>
                   <h2 className="pt-2 pl-4 text-2xl font-semibold tracking-tight text-secondary">{title}</h2>
                 </div>
-                <p className="mtext-base leading-7 text-content-active">{description}</p>
+                <p className="text-base leading-7 text-content-active">{description}</p>
               </article>
             </Link>
             );
