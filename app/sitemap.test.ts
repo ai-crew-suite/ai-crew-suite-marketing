@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { defaultSitemapContent } from "@/lib/sitemapDefaults";
+import { siteUrl } from "@/lib/site";
 
 describe("Marketing sitemap", () => {
   it("declares a force-static route for static export builds", async () => {
@@ -16,23 +17,23 @@ describe("Marketing sitemap", () => {
     expect(routes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          url: "https://digestengine.io",
+          url: siteUrl,
           changeFrequency: "weekly",
           priority: 1,
-          lastModified: new Date(defaultSitemapContent.singletonPages[0].lastModified),
+          lastModified: new Date(defaultSitemapContent.singletonPages[0].lastModified!),
         }),
         expect.objectContaining({
-          url: "https://digestengine.io/blog",
-          lastModified: new Date(defaultSitemapContent.singletonPages[1].lastModified),
+          url: `${siteUrl}/blog`,
+          lastModified: new Date(defaultSitemapContent.singletonPages[1].lastModified!),
         }),
         expect.objectContaining({
-          url: "https://digestengine.io/docs",
-          lastModified: new Date(defaultSitemapContent.singletonPages[2].lastModified),
+          url: `${siteUrl}/docs`,
+          lastModified: new Date(defaultSitemapContent.singletonPages[2].lastModified!),
         }),
         // Check blog posts
-        ...defaultSitemapContent.blogPages.map((page) =>
+        ...defaultSitemapContent.blogPages.map((page: import("@/lib/sitemapDefaults").SitemapContentPage) =>
           expect.objectContaining({
-            url: `https://digestengine.io/blog/${page.slug}`,
+            url: `${siteUrl}/blog/${page.slug}`,
             changeFrequency: "weekly",
             priority: 0.7,
             lastModified: new Date(page.lastModified || "2026-06-02T00:00:00.000Z"),
@@ -60,7 +61,7 @@ describe("Marketing sitemap", () => {
 
     expect(routes).toContainEqual(
       expect.objectContaining({
-        url: "https://digestengine.io/tour",
+        url: `${siteUrl}/tour`,
         lastModified: new Date("2026-06-02T00:00:00.000Z"),
       }),
     );

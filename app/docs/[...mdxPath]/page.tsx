@@ -90,31 +90,31 @@ function childrenToString(children: any): string {
 
 function createMarkdownComponents(currentSlug: string) {
   return {
-    h1: ({ node, children, ...props }) => {
+    h1: ({ node, children, ...props }: any) => {
       const id = slugifyHeading(childrenToString(children));
       return <h1 id={id} {...props}>{children}</h1>;
     },
-    h2: ({ node, children, ...props }) => {
+    h2: ({ node, children, ...props }: any) => {
       const id = slugifyHeading(childrenToString(children));
       return <h2 id={id} {...props}>{children}</h2>;
     },
-    h3: ({ node, children, ...props }) => {
+    h3: ({ node, children, ...props }: any) => {
       const id = slugifyHeading(childrenToString(children));
       return <h3 id={id} {...props}>{children}</h3>;
     },
-    h4: ({ node, children, ...props }) => {
+    h4: ({ node, children, ...props }: any) => {
       const id = slugifyHeading(childrenToString(children));
       return <h4 id={id} {...props}>{children}</h4>;
     },
-    h5: ({ node, children, ...props }) => {
+    h5: ({ node, children, ...props }: any) => {
       const id = slugifyHeading(childrenToString(children));
       return <h5 id={id} {...props}>{children}</h5>;
     },
-    h6: ({ node, children, ...props }) => {
+    h6: ({ node, children, ...props }: any) => {
       const id = slugifyHeading(childrenToString(children));
       return <h6 id={id} {...props}>{children}</h6>;
     },
-    a: ({ node, href, children, ...props }) => {
+    a: ({ node, href, children, ...props }: any) => {
       if (!href) {
         return <>{children}</>;
       }
@@ -128,7 +128,7 @@ function createMarkdownComponents(currentSlug: string) {
       }
       return <Link href={resolvedHref} {...props}>{children}</Link>;
     },
-    code: ({ node, inline, className, children, ...props }) => {
+    code: ({ node, inline, className, children, ...props }: any) => {
       const language = className?.replace("language-", "");
       return inline ? (
         <code {...props}>{children}</code>
@@ -170,7 +170,7 @@ function buildSidebarSections(pages: DocsPageContent[]): SidebarSection[] {
 
 export async function generateStaticParams(): Promise<DocsRouteParams[]> {
   const pages = await getDocsPagesIndex();
-  return pages.map((page) => ({
+  return pages.map((page: DocsPageContent) => ({
     mdxPath: page.slug.split("/").filter(Boolean),
   }));
 }
@@ -206,7 +206,7 @@ export default async function Page(props: { params: Promise<DocsRouteParams> }) 
 
   const currentPath = `${docsBasePath}/${slug}`;
   const sidebarSections = buildSidebarSections(pages);
-  const serializedToc = docsPage.headings.filter((h) => h.depth >= 2 && h.depth <= 6);
+  const serializedToc = docsPage.headings.filter((h: { depth: number; value: string; id: string }) => h.depth >= 2 && h.depth <= 6);
   const content = (
     <div className="markdown-content">
       <ReactMarkdown

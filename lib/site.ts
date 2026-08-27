@@ -1,1 +1,1 @@
-export const siteUrl = "https://digestengine.io";
+export const siteUrl = "https://ai-crew-suite.dev";

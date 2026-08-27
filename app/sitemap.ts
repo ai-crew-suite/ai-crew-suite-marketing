@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { siteUrl } from "@/lib/site";
 import { defaultSitemapContent } from "@/lib/sitemapDefaults";
+import type { SitemapSingletonDocument, SitemapContentPage } from "@/lib/sitemapDefaults";
 
 export const dynamic = "force-static";
 
@@ -58,7 +59,7 @@ function buildContentRoute(
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const content = defaultSitemapContent;
   const singletonLastModifiedByType = new Map(
-    content.singletonPages.map((page) => [page.documentType, page.lastModified]),
+    content.singletonPages.map((page: SitemapSingletonDocument) => [page.documentType, page.lastModified]),
   );
 
   return [
@@ -68,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: route.changeFrequency,
       priority: route.priority,
     })),
-    ...content.blogPages.map((entry) => buildContentRoute("/blog", entry, "weekly", 0.7)),
-    ...content.docsPages.map((entry) => buildContentRoute("/docs", entry, "monthly", 0.65)),
+    ...content.blogPages.map((entry: SitemapContentPage) => buildContentRoute("/blog", entry, "weekly", 0.7)),
+    ...content.docsPages.map((entry: SitemapContentPage) => buildContentRoute("/docs", entry, "monthly", 0.65)),
   ];
 }

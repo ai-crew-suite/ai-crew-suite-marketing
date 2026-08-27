@@ -61,7 +61,7 @@ export default async function SignupPage() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-              {content.hero.highlights.map((highlight) => (
+              {content.hero.highlights.map((highlight: string) => (
                 <div
                   key={highlight}
                   className="rounded-3xl border border-trim-offset bg-page-base p-5 shadow-card backdrop-blur-[18px]"
@@ -92,7 +92,7 @@ export default async function SignupPage() {
         </div>
 
         <ol className="mt-4 sm:mt-8 grid gap-4 md:grid-cols-3" aria-label="Signup next steps">
-          {content.nextStepsSection.items.map((step, index) => (
+          {content.nextStepsSection.items.map((step: string, index: number) => (
             <li
               key={step}
               className="rounded-3xl border border-trim-offset bg-page-base p-6 shadow-card"

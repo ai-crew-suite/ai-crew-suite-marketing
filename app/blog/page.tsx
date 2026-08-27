@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Newspaper } from "lucide-react";
 import { PageSection } from "@/components/Section";
 import { defaultBlogPageContent, getBlogContentPages } from "@/lib/blogDefaults";
+import type { BlogContentPage } from "@/lib/blogTypes";
 
 type BlogCard = {
   href: string;
@@ -22,7 +23,7 @@ export function generateMetadata(): Metadata {
 
 async function buildBlogCards(): Promise<BlogCard[]> {
   const blogPages = await getBlogContentPages();
-  return blogPages.map<BlogCard>((item) => {
+  return blogPages.map<BlogCard>((item: BlogContentPage) => {
     const previewImage = typeof item.previewImage === 'string' 
       ? item.previewImage 
       : item.previewImage.src;
@@ -60,7 +61,7 @@ export default async function BlogHomePage() {
       </PageSection>
 
       <section className="relative mx-auto grid w-full max-w-6xl gap-6 overflow-hidden md:grid-cols-2 xl:grid-cols-3">
-        {posts.map((post) => (
+        {posts.map((post: BlogCard) => (
           <Link
             key={post.href}
             href={post.href}

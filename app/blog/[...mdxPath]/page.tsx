@@ -96,7 +96,7 @@ function createMarkdownComponents(currentSlug: string) {
 
 export async function generateStaticParams(): Promise<BlogRouteParams[]> {
   const pages = await getBlogPagesIndex();
-  return pages.map((page) => ({
+  return pages.map((page: BlogPageContentMarkdown) => ({
     mdxPath: page.slug.split("/").filter(Boolean),
   }));
 }
