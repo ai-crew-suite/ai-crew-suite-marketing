@@ -56,7 +56,7 @@ describe("Root layout", () => {
       legalLinks: [{ href: "/privacy", label: "Privacy" }],
     });
     vi.mocked(getHeaderComponentContent).mockResolvedValue({
-      loginButtonText: "Log in",
+      loginButtonText: "Sign up",
       navigationItems: [{ href: "/tour", label: "Tour" }],
     });
   });

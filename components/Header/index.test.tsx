@@ -21,6 +21,18 @@ vi.mock("@/components/ThemeToggle", () => ({
   ThemeToggle: () => <button aria-label="Theme toggle">Theme toggle</button>,
 }));
 
+vi.mock("@/sanity/queries/headerComponent", () => ({
+  defaultHeaderComponentContent: {
+    loginButtonText: "Sign up",
+    navigationItems: [
+      { href: "/tour", label: "Tour" },
+      { href: "/docs", label: "Docs" },
+      { href: "/blog", label: "Blog" },
+    ],
+  },
+  getHeaderComponentContent: vi.fn(),
+}));
+
 let root: Root | null = null;
 let container: HTMLDivElement | null = null;
 
@@ -43,18 +55,18 @@ describe("Header", () => {
     expect(markup).toContain('id="marketing-nav"');
     expect(markup).toContain('href="/tour"');
     expect(markup).toContain('href="/docs"');
-    expect(markup).toContain('href="/login"');
+    expect(markup).toContain('href="/signup"');
     expect(markup).toContain(`alt="Digest Engine logo"`);
   });
 
-  it("places the theme toggle between the nav links and login", () => {
+  it("places the theme toggle between the nav links and signup", () => {
     const markup = renderToStaticMarkup(<Header content={defaultHeaderComponentContent} />);
     const docsIndex = markup.indexOf('href="/docs"');
     const themeToggleIndex = markup.indexOf('aria-label="Theme toggle"');
-    const loginIndex = markup.indexOf('href="/login"');
+    const signupIndex = markup.indexOf('href="/signup"');
 
     expect(themeToggleIndex).toBeGreaterThan(docsIndex);
-    expect(themeToggleIndex).toBeLessThan(loginIndex);
+    expect(themeToggleIndex).toBeLessThan(signupIndex);
   });
 
   it("allows the brand cluster to shrink on mobile widths", () => {
@@ -87,6 +99,6 @@ describe("Header", () => {
     expect(mobileMenu).not.toBeNull();
     expect(container.querySelector('button[aria-label="Close navigation menu"]')).not.toBeNull();
     expect(mobileMenu?.textContent).toContain("How It Works");
-    expect(mobileMenu?.textContent).toContain("Login");
+    expect(mobileMenu?.textContent).toContain("Sign up");
   });
 });

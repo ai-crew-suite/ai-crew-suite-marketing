@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import { PageSection } from "@/components/Section";
 import { Button } from "@/components/shared/button";
 import { getSignupPageContent } from "@/sanity/queries/signupPage";
-import SignupLoginNotice from "./_components/SignupLoginNotice";
 import SignupForm from "./_components/SignupForm";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,9 +28,7 @@ export default async function SignupPage() {
               {content.hero.badge}
             </span>
 
-            <Suspense fallback={null}>
-              <SignupLoginNotice />
-            </Suspense>
+
 
             <div className="space-y-5">
               <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-primary sm:text-5xl lg:text-6xl">

@@ -93,7 +93,7 @@ export function Header({ content }: HeaderProps) {
             )}
 
             <Link
-              href="/login"
+              href="/signup"
               className="hidden rounded-full bg-accent px-4 py-2 text-base font-semibold text-primary-inverse no-underline transition-colors hover:bg-accent-offset sm:text-lg md:inline-flex"
             >
               {content.loginButtonText}
@@ -120,7 +120,7 @@ export function Header({ content }: HeaderProps) {
             </nav>
 
             <Link
-              href="/login"
+              href="/signup"
               onClick={() => setIsMobileMenuOpen(false)}
               className="inline-flex w-full items-center justify-center rounded-full bg-accent px-4 py-2 text-base font-semibold text-primary-inverse no-underline transition-colors hover:bg-accent-offset"
             >

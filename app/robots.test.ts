@@ -14,7 +14,7 @@ describe("Marketing robots metadata route", () => {
       rules: {
         userAgent: "*",
         allow: "/",
-        disallow: ["/login"],
+        disallow: [],
       },
       sitemap: "https://digestengine.io/sitemap.xml",
     });

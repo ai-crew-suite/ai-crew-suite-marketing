@@ -3,9 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { defaultSignupPageContent } from "@/sanity/queries/signupPage";
 
-vi.mock("./_components/SignupLoginNotice", () => ({
-  default: () => <div>Signup login notice</div>,
-}));
+
 
 vi.mock("@/sanity/queries/signupPage", () => ({
   defaultSignupPageContent: {
@@ -62,7 +60,6 @@ describe("SignupPage", () => {
     expect(getSignupPageContent).toHaveBeenCalled();
     expect(markup).toContain(defaultSignupPageContent.hero.title);
     expect(markup).toContain("Request access");
-    expect(markup).toContain("Signup login notice");
     expect(markup).toContain('aria-label="Signup next steps"');
     expect(markup).toContain('href="#form"');
   });
