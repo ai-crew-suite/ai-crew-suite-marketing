@@ -1,0 +1,22 @@
+/* Assign the layout rule directly to your website's main body or viewport container */
+.blueprint-canvas {
+  background-color: #cbdbe5; /* The exact light, desaturated blue construction paper color */
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* The Grain Layer: Synthesizes a high-fidelity microscopic paper grain texture */
+.blueprint-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.22; /* Adjust this value up or down to sharpen or soften the paper grain density */
+
+  /* Generates a dynamic, repeating structural paper fiber grain overlay */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://w3.org id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
