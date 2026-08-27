@@ -13,10 +13,10 @@ import {
 import { CTA } from "@/components/HomePage/CTA";
 import { PageSection } from "@/components/Section";
 import { Button } from "@/components/shared/button";
-import {
-  getTourPageContent,
-  type TourCapabilityItem,
-} from "@/sanity/queries/tourPage";
+import { defaultTourPageContent } from "@/lib/tourDefaults";
+import type { TourPageContent } from "@/lib/tourTypes";
+
+type TourCapabilityItem = TourPageContent["capabilitiesSection"]["items"][0];
 
 const capabilityIconMap: Record<TourCapabilityItem["icon"], LucideIcon> = {
   blocks: Blocks,
@@ -25,17 +25,15 @@ const capabilityIconMap: Record<TourCapabilityItem["icon"], LucideIcon> = {
   sparkles: Sparkles,
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const content = await getTourPageContent();
-
+export function generateMetadata(): Metadata {
   return {
-    title: content.metadata.title,
-    description: content.metadata.description,
+    title: defaultTourPageContent.metadata.title,
+    description: defaultTourPageContent.metadata.description,
   };
 }
 
-export default async function TourPage() {
-  const content = await getTourPageContent();
+export default function TourPage() {
+  const content = defaultTourPageContent;
 
   return (
     <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-5 pt-24 md:gap-6">
