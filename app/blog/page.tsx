@@ -3,9 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Newspaper } from "lucide-react";
 import { PageSection } from "@/components/Section";
-import { getBlogPageContent } from "@/sanity/queries/blogPage";
-import { buildSanityImageUrl } from "@/sanity/image";
-import { getBlogContentPages } from "@/sanity/queries/blogContentPage";
+import { defaultBlogPageContent, defaultBlogContentPages } from "@/lib/blogDefaults";
 
 type BlogCard = {
   href: string;
@@ -15,47 +13,31 @@ type BlogCard = {
   publishedAt?: string;
 };
 
-type BlogCardSource = Awaited<ReturnType<typeof getBlogContentPages>>[number] & {
-  description?: string;
-};
-
-export async function generateMetadata(): Promise<Metadata> {
-  const content = await getBlogPageContent();
-
+export function generateMetadata(): Metadata {
   return {
-    title: content.metadata.title,
-    description: content.metadata.description,
+    title: defaultBlogPageContent.metadata.title,
+    description: defaultBlogPageContent.metadata.description,
   };
 }
 
-function buildBlogCards(items: BlogCardSource[], fallbackDescription: string): BlogCard[] {
-  return items.flatMap<BlogCard>((item) => {
-    const previewImage = buildSanityImageUrl(item.previewImage, {
-      width: 880,
-      height: 660,
-      fit: "crop",
-    });
+function buildBlogCards(): BlogCard[] {
+  return defaultBlogContentPages.map<BlogCard>((item) => {
+    const previewImage = typeof item.previewImage === 'string' 
+      ? item.previewImage 
+      : item.previewImage.src;
 
-    if (!previewImage) {
-      return [];
-    }
-
-    return [{
+    return {
       href: `/blog/${item.slug.current}`,
       title: item.title,
-      description: item.description ?? fallbackDescription,
+      description: item.description ?? defaultBlogPageContent.postsSection.fallbackDescription,
       previewImage,
       publishedAt: item.publishedAt,
-    }];
+    };
   });
 }
 
-export default async function BlogHomePage() {
-  const [content, blogContentPages] = await Promise.all([
-    getBlogPageContent(),
-    getBlogContentPages(),
-  ]);
-  const posts = buildBlogCards(blogContentPages, content.postsSection.fallbackDescription);
+export default function BlogHomePage() {
+  const posts = buildBlogCards();
 
   return (
     <main className="relative mx-auto flex w-full flex-col gap-8 pb-16 pt-24">
@@ -65,13 +47,13 @@ export default async function BlogHomePage() {
         <div className="space-y-5">
           <span className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-2 font-medium text-content-inverse">
             <Newspaper className="h-4 w-4" aria-hidden="true" />
-            {content.hero.badge}
+            {defaultBlogPageContent.hero.badge}
           </span>
           <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-secondary">
-            {content.hero.title}
+            {defaultBlogPageContent.hero.title}
           </h1>
           <p className="text-lg leading-8 text-content-active">
-            {content.hero.description}
+            {defaultBlogPageContent.hero.description}
           </p>
         </div>
       </PageSection>

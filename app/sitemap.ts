@@ -1,17 +1,13 @@
 import type { MetadataRoute } from "next";
 
 import { siteUrl } from "@/lib/site";
-import {
-  getSitemapContent,
-  type SitemapContentPage,
-  type SitemapSingletonDocumentType,
-} from "@/sanity/queries/sitemap";
+import { defaultSitemapContent } from "@/lib/sitemapDefaults";
 
 export const dynamic = "force-static";
 
 type SitemapRouteDefinition = {
   path: string;
-  documentType: SitemapSingletonDocumentType;
+  documentType: string;
   changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
   priority: number;
 };
@@ -46,7 +42,7 @@ function toLastModified(value?: string): Date {
 
 function buildContentRoute(
   basePath: "/blog" | "/docs",
-  entry: SitemapContentPage,
+  entry: { slug: string; lastModified?: string },
   changeFrequency: NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>,
   priority: number,
 ): MetadataRoute.Sitemap[number] {
@@ -58,9 +54,9 @@ function buildContentRoute(
   };
 }
 
-/** Builds the public marketing sitemap from Sanity-managed singleton and content pages. */
+/** Builds the public marketing sitemap from hardcoded singleton and content pages. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const content = await getSitemapContent();
+  const content = defaultSitemapContent;
   const singletonLastModifiedByType = new Map(
     content.singletonPages.map((page) => [page.documentType, page.lastModified]),
   );
