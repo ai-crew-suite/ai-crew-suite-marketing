@@ -3,10 +3,8 @@ import Link from "next/link";
 import { BadgeCheck, LockKeyhole, ServerCrash, ShieldCheck } from "lucide-react";
 
 import { PageSection } from "@/components/Section";
-import {
-  getCompliancePageContent,
-  type ComplianceHighlightItem,
-} from "@/sanity/queries/compliancePage";
+import { defaultCompliancePageContent } from "@/lib/complianceDefaults";
+import type { ComplianceHighlightItem } from "@/lib/complianceTypes";
 
 const iconMap: Record<ComplianceHighlightItem["icon"], typeof LockKeyhole> = {
   badgeCheck: BadgeCheck,
@@ -15,17 +13,15 @@ const iconMap: Record<ComplianceHighlightItem["icon"], typeof LockKeyhole> = {
   shieldCheck: ShieldCheck,
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const content = await getCompliancePageContent();
-
+export function generateMetadata(): Metadata {
   return {
-    title: content.metadata.title,
-    description: content.metadata.description,
+    title: defaultCompliancePageContent.metadata.title,
+    description: defaultCompliancePageContent.metadata.description,
   };
 }
 
-export default async function CompliancePage() {
-  const content = await getCompliancePageContent();
+export default function CompliancePage() {
+  const content = defaultCompliancePageContent;
 
   return (
     <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-5 pt-24 md:gap-6">
