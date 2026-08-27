@@ -2,19 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageSection } from "@/components/Section";
-import { getTermsPageContent } from "@/sanity/queries/termsPage";
+import { defaultTermsPageContent } from "@/lib/termsDefaults";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const content = await getTermsPageContent();
-
+export function generateMetadata(): Metadata {
   return {
-    title: content.metadata.title,
-    description: content.metadata.description,
+    title: defaultTermsPageContent.metadata.title,
+    description: defaultTermsPageContent.metadata.description,
   };
 }
 
-export default async function TermsPage() {
-  const content = await getTermsPageContent();
+export default function TermsPage() {
+  const content = defaultTermsPageContent;
 
   return (
     <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-5 pt-24 md:gap-6">
