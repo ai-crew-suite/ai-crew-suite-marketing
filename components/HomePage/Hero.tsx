@@ -48,7 +48,7 @@ const Hero = ({ description, title, btnGetStarted }: IHeroProps) => {
           <div className="relative">
             <Image
               src={heroImage}
-              alt="Digest Engine product illustration"
+              alt="AI Crew Suite product illustration"
               priority
               width={558}
               height={431}

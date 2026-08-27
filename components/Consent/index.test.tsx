@@ -4,7 +4,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { defaultConsentComponentContent } from "@/sanity/queries/consentComponent";
+import { defaultConsentComponentContent } from "@/lib/consentDefaults";
 
 import { CONSENT_STORAGE_KEY, Consent } from "./index";
 

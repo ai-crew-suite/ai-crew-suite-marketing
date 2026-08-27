@@ -8,35 +8,35 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-vi.mock("@/sanity/queries/brandSettings", () => ({
+vi.mock("@/lib/brandDefaults", () => ({
   defaultBrandSettingsContent: {
-    tagline: "The research desk for your newsletter",
+    tagline: "AI-powered workflow automation for Backstage developer portals",
   },
   getBrandSettingsContent: vi.fn(),
 }));
 
-vi.mock("@/sanity/queries/consentComponent", () => ({
+vi.mock("@/lib/consentDefaults", () => ({
   getConsentComponentContent: vi.fn(),
 }));
 
-vi.mock("@/sanity/queries/footerComponent", () => ({
+vi.mock("@/lib/footerDefaults", () => ({
   getFooterComponentContent: vi.fn(),
 }));
 
-vi.mock("@/sanity/queries/headerComponent", () => ({
+vi.mock("@/lib/headerDefaults", () => ({
   getHeaderComponentContent: vi.fn(),
 }));
 
-import { getBrandSettingsContent } from "@/sanity/queries/brandSettings";
-import { getConsentComponentContent } from "@/sanity/queries/consentComponent";
-import { getFooterComponentContent } from "@/sanity/queries/footerComponent";
-import { getHeaderComponentContent } from "@/sanity/queries/headerComponent";
+import { getBrandSettingsContent } from "@/lib/brandDefaults";
+import { getConsentComponentContent } from "@/lib/consentDefaults";
+import { getFooterComponentContent } from "@/lib/footerDefaults";
+import { getHeaderComponentContent } from "@/lib/headerDefaults";
 
 describe("Root layout", () => {
   beforeEach(() => {
     vi.resetModules();
     vi.mocked(getBrandSettingsContent).mockResolvedValue({
-      tagline: "The research desk for your newsletter",
+      tagline: "AI-powered workflow automation for Backstage developer portals",
     });
     vi.mocked(getConsentComponentContent).mockResolvedValue({
       acceptButtonText: "Accept",
@@ -65,8 +65,8 @@ describe("Root layout", () => {
     const { generateMetadata } = await import("./layout");
 
     await expect(generateMetadata()).resolves.toMatchObject({
-      title: "Digest Engine",
-      description: "The research desk for your newsletter",
+      title: "AI Crew Suite",
+      description: "AI-powered workflow automation for Backstage developer portals",
     });
   });
 
@@ -76,7 +76,7 @@ describe("Root layout", () => {
       await RootLayout({ children: <div>Child content</div> }),
     );
 
-    expect(markup).toContain("The research desk for your newsletter");
+    expect(markup).toContain("AI-powered workflow automation for Backstage developer portals");
     expect(markup).toContain("Footer description");
   });
 });

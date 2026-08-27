@@ -28,7 +28,7 @@ export default function NotFound() {
         <div className='relative min-h-96 overflow-hidden rounded-[1.5rem] border border-trim-offset bg-page-offset'>
           <Image
             src={notFoundImage}
-            alt='Digest Engine 404 illustration'
+            alt='AI Crew Suite 404 illustration'
             priority
             fill
             sizes='(min-width: 1024px) 50vw, 100vw'

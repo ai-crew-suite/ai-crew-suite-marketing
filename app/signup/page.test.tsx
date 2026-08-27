@@ -1,21 +1,21 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { defaultSignupPageContent } from "@/sanity/queries/signupPage";
+import { defaultSignupPageContent } from "@/lib/signupDefaults";
 
 
 
-vi.mock("@/sanity/queries/signupPage", () => ({
+vi.mock("@/lib/signupDefaults", () => ({
   defaultSignupPageContent: {
     metadata: {
-      title: "Digest Engine Sign Up",
-      description: "Request access to Digest Engine and tell us how your editorial workflow works today.",
+      title: "AI Crew Suite Sign Up",
+      description: "Request access to AI Crew Suite and tell us how your editorial workflow works today.",
     },
     hero: {
       badge: "Sign up",
       title: "Start with a workflow that learns your editorial taste",
       description:
-        "Digest Engine is designed for editors who want better sourcing, stronger prioritization, and less blank-page friction. Fill out the form and we will help you start with the right setup.",
+        "AI Crew Suite is designed for editors who want better sourcing, stronger prioritization, and less blank-page friction. Fill out the form and we will help you start with the right setup.",
       primaryAction: {
         text: "Request access",
         link: "#form",
@@ -45,7 +45,7 @@ vi.mock("@/sanity/queries/signupPage", () => ({
   getSignupPageContent: vi.fn(),
 }));
 
-import { getSignupPageContent } from "@/sanity/queries/signupPage";
+import { getSignupPageContent } from "@/lib/signupDefaults";
 
 import SignupPage from "./page";
 

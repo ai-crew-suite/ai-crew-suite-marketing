@@ -36,7 +36,7 @@ describe("Solution", () => {
   it("renders the solution overview and step images", () => {
     render(<Solution {...solutionProps} />);
 
-    const stepList = screen.getByRole("list", { name: "How Digest Engine works" });
+    const stepList = screen.getByRole("list", { name: "How AI Crew Suite works" });
 
     expect(
       screen.getByRole("heading", {

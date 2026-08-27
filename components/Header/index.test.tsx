@@ -5,7 +5,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { defaultHeaderComponentContent } from "@/sanity/queries/headerComponent";
+import { defaultHeaderComponentContent } from "@/lib/headerDefaults";
 
 import { Header } from "./index";
 
@@ -21,7 +21,7 @@ vi.mock("@/components/ThemeToggle", () => ({
   ThemeToggle: () => <button aria-label="Theme toggle">Theme toggle</button>,
 }));
 
-vi.mock("@/sanity/queries/headerComponent", () => ({
+vi.mock("@/lib/headerDefaults", () => ({
   defaultHeaderComponentContent: {
     loginButtonText: "Sign up",
     navigationItems: [
@@ -56,7 +56,7 @@ describe("Header", () => {
     expect(markup).toContain('href="/tour"');
     expect(markup).toContain('href="/docs"');
     expect(markup).toContain('href="/signup"');
-    expect(markup).toContain(`alt="Digest Engine logo"`);
+    expect(markup).toContain(`alt="AI Crew Suite logo"`);
   });
 
   it("places the theme toggle between the nav links and signup", () => {

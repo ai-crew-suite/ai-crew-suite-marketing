@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageSection } from "@/components/Section";
-import { getPrivacyPageContent } from "@/sanity/queries/privacyPage";
+import { getPrivacyPageContent } from "@/lib/privacyDefaults";
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getPrivacyPageContent();

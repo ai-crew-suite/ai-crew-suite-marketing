@@ -8,7 +8,7 @@ describe("NotFound", () => {
     const markup = renderToStaticMarkup(<NotFound />);
 
     expect(markup).toContain("Page not found");
-    expect(markup).toContain("Digest Engine 404 illustration");
+    expect(markup).toContain("AI Crew Suite 404 illustration");
     expect(markup).toContain("Back to home");
     expect(markup).toContain("Visit the blog");
     expect(markup).toContain('href="/"');

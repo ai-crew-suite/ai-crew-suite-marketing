@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-import type { HeaderComponentContent } from "@/sanity/queries/headerComponent";
+import type { HeaderComponentContent } from "@/lib/headerDefaults";
 
 import { PageSection } from "../Section";
 import logo from "@/assets/images/logo.svg";
@@ -40,12 +40,12 @@ export function Header({ content }: HeaderProps) {
           >
             <Image
               src={logo}
-              alt="Digest Engine logo"
+              alt="AI Crew Suite logo"
               className="h-14 w-14 shrink-0 sm:h-16 sm:w-16"
               priority
             />
             <span className="min-w-0 truncate text-lg font-semibold tracking-tight text-secondary hover:text-secondary-offset sm:ml-2 sm:text-3xl">
-              Digest Engine
+              AI Crew Suite
             </span>
           </Link>
 

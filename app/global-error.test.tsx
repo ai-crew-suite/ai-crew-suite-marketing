@@ -12,13 +12,13 @@ const sentryMocks = vi.hoisted(() => ({
 
 vi.mock("@sentry/nextjs", () => sentryMocks);
 
-vi.mock("@/sanity/queries/globalErrorPage", () => ({
+vi.mock("@/lib/globalErrorDefaults", () => ({
   defaultGlobalErrorPageContent: {
     eyebrow: "Error",
-    title: "Digest Engine hit an unexpected problem",
+    title: "AI Crew Suite hit an unexpected problem",
     description:
       "We logged the failure for review. You can retry this route now, head back to the homepage, or use one of the main site paths below.",
-    imageAlt: "Digest Engine error illustration",
+    imageAlt: "AI Crew Suite error illustration",
     referenceLabel: "Reference",
     retryButtonText: "Try again",
     homeButtonLabel: "Return home",
@@ -46,10 +46,10 @@ vi.mock("@/sanity/queries/globalErrorPage", () => ({
   },
   getGlobalErrorPageContent: vi.fn().mockResolvedValue({
     eyebrow: "Error",
-    title: "Digest Engine hit an unexpected problem",
+    title: "AI Crew Suite hit an unexpected problem",
     description:
       "We logged the failure for review. You can retry this route now, head back to the homepage, or use one of the main site paths below.",
-    imageAlt: "Digest Engine error illustration",
+    imageAlt: "AI Crew Suite error illustration",
     referenceLabel: "Reference",
     retryButtonText: "Try again",
     homeButtonLabel: "Return home",
@@ -92,7 +92,7 @@ describe("GlobalError", () => {
 
     expect(sentryMocks.captureException).toHaveBeenCalledWith(error);
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
-    expect(screen.getByAltText("Digest Engine error illustration")).toBeInTheDocument();
+    expect(screen.getByAltText("AI Crew Suite error illustration")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Return home" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: /How It Works/i })).toHaveAttribute("href", "/tour");

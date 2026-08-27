@@ -21,7 +21,7 @@ const Solution = ({ title, description, steps }: ISolutionProps) => {
         </header>
 
         <ol
-          aria-label="How Digest Engine works"
+          aria-label="How AI Crew Suite works"
           className="grid gap-4 sm:gap-6 md:grid-cols-2"
         >
           {steps.map((step) => (

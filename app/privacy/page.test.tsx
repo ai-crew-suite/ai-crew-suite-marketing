@@ -1,20 +1,20 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { defaultPrivacyPageContent } from "@/sanity/queries/privacyPage";
+import { defaultPrivacyPageContent } from "@/lib/privacyDefaults";
 import PrivacyPage from "./page";
 
-vi.mock("@/sanity/queries/privacyPage", () => ({
+vi.mock("@/lib/privacyDefaults", () => ({
   defaultPrivacyPageContent: {
     metadata: {
-      title: "Digest Engine Privacy Policy",
+      title: "AI Crew Suite Privacy Policy",
       description:
-        "How Digest Engine collects, uses, protects, and processes personal information in connection with the service.",
+        "How AI Crew Suite collects, uses, protects, and processes personal information in connection with the service.",
     },
     hero: {
-      title: "Privacy terms for using Digest Engine",
+      title: "Privacy terms for using AI Crew Suite",
       description:
-        "We are committed to protecting your privacy. This policy outlines how Digest Engine collects, uses, safeguards, and processes your personal information when you interact with our platform and services.",
+        "We are committed to protecting your privacy. This policy outlines how AI Crew Suite collects, uses, safeguards, and processes your personal information when you interact with our platform and services.",
       effectiveDate: "Effective date: May 16, 2026",
     },
     summarySection: {
@@ -26,7 +26,7 @@ vi.mock("@/sanity/queries/privacyPage", () => ({
     },
     policySection: {
       eyebrow: "Policy details",
-      title: "Digest Engine Privacy Terms",
+      title: "AI Crew Suite Privacy Terms",
       description:
         "Please read this policy carefully to understand our practices regarding your data and how we handle it.",
       items: [
@@ -44,7 +44,7 @@ vi.mock("@/sanity/queries/privacyPage", () => ({
       eyebrow: "Contact",
       title: "Questions about privacy or data handling?",
       description:
-        "Contact the Digest Engine team through the signup page or your existing customer support channel for privacy-related questions, subprocessors, or deletion requests.",
+        "Contact the AI Crew Suite team through the signup page or your existing customer support channel for privacy-related questions, subprocessors, or deletion requests.",
       primaryAction: {
         label: "Contact sales",
         href: "/signup",
@@ -58,7 +58,7 @@ vi.mock("@/sanity/queries/privacyPage", () => ({
   getPrivacyPageContent: vi.fn(),
 }));
 
-import { getPrivacyPageContent } from "@/sanity/queries/privacyPage";
+import { getPrivacyPageContent } from "@/lib/privacyDefaults";
 
 describe("PrivacyPage", () => {
   beforeEach(() => {
@@ -68,7 +68,7 @@ describe("PrivacyPage", () => {
   it("renders the privacy policy route with Sanity-backed sections", async () => {
     const markup = renderToStaticMarkup(await PrivacyPage());
 
-    expect(markup).toContain("Privacy terms for using Digest Engine");
+    expect(markup).toContain("Privacy terms for using AI Crew Suite");
     expect(markup).toContain("Information we collect");
     expect(markup).toContain("Your choices and rights");
     expect(markup).toContain('href="/signup"');

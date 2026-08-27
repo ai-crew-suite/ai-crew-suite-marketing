@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { FooterComponentContent } from "@/sanity/queries/footerComponent";
+import type { FooterComponentContent } from "@/lib/footerDefaults";
 
 import { PageSection } from "../Section";
 import { Button } from "../shared/button";
@@ -34,12 +34,12 @@ export function Footer({ brandTagline, content }: FooterProps) {
           >
             <Image
               src={logo}
-              alt={"Digest Engine logo"}
+              alt={"AI Crew Suite logo"}
               className="h-14 w-14 shrink-0"
             />
             <div>
               <p className="m-0 text-lg font-semibold tracking-tight text-content-active">
-                Digest Engine
+                AI Crew Suite
               </p>
               <p className="m-0 text-sm text-content-offset">{brandTagline}</p>
             </div>

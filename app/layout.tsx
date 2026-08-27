@@ -8,10 +8,10 @@ import { Consent } from "@/components/Consent";
 import { Footer } from "@/components/Footer";
 import { GoogleTagManagerWithConsent } from "@/components/GoogleTagManagerWithConsent";
 import { Header } from "@/components/Header";
-import { getBrandSettingsContent } from "@/sanity/queries/brandSettings";
-import { getConsentComponentContent } from "@/sanity/queries/consentComponent";
-import { getFooterComponentContent } from "@/sanity/queries/footerComponent";
-import { getHeaderComponentContent } from "@/sanity/queries/headerComponent";
+import { getBrandSettingsContent } from "@/lib/brandDefaults";
+import { getConsentComponentContent } from "@/lib/consentDefaults";
+import { getFooterComponentContent } from "@/lib/footerDefaults";
+import { getHeaderComponentContent } from "@/lib/headerDefaults";
 import { themeInitScript } from "@/lib/themeInit";
 
 import "../styles/globals.css";
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const brandSettingsContent = await getBrandSettingsContent();
 
   return {
-    title: "Digest Engine",
+    title: "AI Crew Suite",
     description: brandSettingsContent.tagline,
   };
 }

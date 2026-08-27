@@ -8,7 +8,7 @@ import notFoundImage from "@/assets/images/404.jpg";
 import {
   defaultGlobalErrorPageContent,
   getGlobalErrorPageContent,
-} from "@/sanity/queries/globalErrorPage";
+} from "@/lib/globalErrorDefaults";
 
 /**
  * Renders the top-level fallback UI for uncaught App Router errors.

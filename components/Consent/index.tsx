@@ -4,7 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
 
-import type { ConsentComponentContent } from "@/sanity/queries/consentComponent";
+import type { ConsentComponentContent } from "@/lib/consentDefaults";
 import {
   CONSENT_STORAGE_KEY,
   readConsentPreferences,

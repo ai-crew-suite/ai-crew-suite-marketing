@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 import { PageSection } from "@/components/Section";
 import { Button } from "@/components/shared/button";
-import { getSignupPageContent } from "@/sanity/queries/signupPage";
+import { getSignupPageContent } from "@/lib/signupDefaults";
 import SignupForm from "./_components/SignupForm";
 
 export async function generateMetadata(): Promise<Metadata> {

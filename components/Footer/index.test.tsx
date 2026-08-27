@@ -5,8 +5,8 @@ import "@testing-library/jest-dom/vitest";
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { defaultBrandSettingsContent } from "@/sanity/queries/brandSettings";
-import { defaultFooterComponentContent } from "@/sanity/queries/footerComponent";
+import { defaultBrandSettingsContent } from "@/lib/brandDefaults";
+import { defaultFooterComponentContent } from "@/lib/footerDefaults";
 
 import { Footer } from "./index";
 
@@ -41,7 +41,7 @@ describe("Footer", () => {
     });
 
     expect(footer).toHaveAttribute("id", "marketing-footer");
-    expect(within(footer).getByRole("img", { name: "Digest Engine logo" })).toBeInTheDocument();
+    expect(within(footer).getByRole("img", { name: "AI Crew Suite logo" })).toBeInTheDocument();
     expect(within(footer).getByText(defaultBrandSettingsContent.tagline)).toBeInTheDocument();
     expect(within(footer).getByRole("link", { name: "Start Your First Project" })).toHaveAttribute("href", "/signup");
     expect(within(productNav).getByRole("link", { name: "How It Works" })).toHaveAttribute("href", "/tour");

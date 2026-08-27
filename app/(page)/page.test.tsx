@@ -10,24 +10,13 @@ import {
   defaultSolutionProps,
 } from "@/lib/homePageDefaults";
 
-vi.mock("@/sanity/queries/homePage", () => ({
-  getHomePageContent: vi.fn(),
-}));
 
-import { getHomePageContent } from "@/sanity/queries/homePage";
 
 import Home from "./page";
 
 describe("Marketing home page", () => {
   beforeEach(() => {
-    vi.mocked(getHomePageContent).mockResolvedValue({
-      hero: defaultHeroProps,
-      problems: defaultProblemsProps,
-      solution: defaultSolutionProps,
-      features: defaultFeatureItems,
-      faq: defaultHomePageFaqProps,
-      cta: defaultCtaProps,
-    });
+    // No Sanity queries needed
   });
 
   it("renders the AI Crew Suite landing page sections in the expected order", async () => {

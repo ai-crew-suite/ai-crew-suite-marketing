@@ -28,7 +28,7 @@ const featureImage = {
 };
 
 const featureProps: IFeaturesProps = {
-  title: "Why Digest Engine feels different",
+  title: "Why AI Crew Suite feels different",
   description: "A short section summary.",
   items: [
     {
