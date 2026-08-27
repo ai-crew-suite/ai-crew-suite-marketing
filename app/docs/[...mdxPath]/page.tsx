@@ -1,27 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { cache } from "react";
-import { isValidElement, type ReactNode } from "react";
 import path from "node:path/posix";
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { PageSection } from "@/components/Section";
-import { getBrandSettingsContent } from "@/sanity/queries/brandSettings";
-import {
-  getDocsContentPage,
-  getDocsContentPages,
-  docsSectionOrder,
-  docsSectionTitles,
-  type DocsContentBlock,
-  type DocsContentMarkDef,
-  type DocsContentPageListItem,
-} from "@/sanity/queries/docsContentPage";
+import { getAllDocsPages, getDocsPage, getDocsPageList, getDocsSectionOrder, getDocsSectionTitles } from "@/lib/docsUtils";
+import type { DocsPageContent, DocsSidebarItem, DocsSidebarSection } from "@/lib/docsTypes";
 
 import {
   DocsPageSidebar,
-  type DocsSidebarItem,
-  type DocsSidebarSection,
+  type DocsSidebarItem as SidebarItem,
+  type DocsSidebarSection as SidebarSection,
 } from "./_components/DocsPageSidebar";
 
 type DocsRouteParams = {
@@ -33,29 +25,12 @@ type DocsMetadata = Metadata & {
   description?: string;
 };
 
-type PortableTextCodeBlock = {
-  code?: string;
-  language?: string;
-};
+
 
 const docsBasePath = "/docs";
-const getDocsPagesIndex = cache(async () => getDocsContentPages());
+const getDocsPagesIndex = cache(async () => await getAllDocsPages());
 
-function getHeadingText(value: ReactNode): string {
-  if (typeof value === "string" || typeof value === "number") {
-    return String(value);
-  }
 
-  if (Array.isArray(value)) {
-    return value.map((item) => getHeadingText(item)).join("");
-  }
-
-  if (isValidElement<{ children?: ReactNode }>(value)) {
-    return getHeadingText(value.props.children);
-  }
-
-  return "";
-}
 
 function buildDocsMetadata(metadata: DocsMetadata, fallbackDescription: string): Metadata {
   const title = metadata.title ?? "Documentation";
@@ -78,9 +53,7 @@ function buildDocsMetadata(metadata: DocsMetadata, fallbackDescription: string):
   };
 }
 
-function getPortableTextBlockText(block: DocsContentBlock): string {
-  return block.children?.map((child) => child.text ?? "").join("").trim() ?? "";
-}
+
 
 function slugifyHeading(value: string): string {
   return value
@@ -90,33 +63,7 @@ function slugifyHeading(value: string): string {
     .replace(/\s+/g, "-");
 }
 
-function buildPortableTextToc(blocks: DocsContentBlock[]) {
-  return blocks.flatMap((block) => {
-    if (block._type !== "block") {
-      return [];
-    }
 
-    const headingStyle = block.style;
-
-    if (!headingStyle || !/^h[2-6]$/.test(headingStyle)) {
-      return [];
-    }
-
-    const value = getPortableTextBlockText(block);
-
-    if (!value) {
-      return [];
-    }
-
-    return [
-      {
-        depth: Number(headingStyle.replace("h", "")) as 2 | 3 | 4 | 5 | 6,
-        id: slugifyHeading(value),
-        value,
-      },
-    ];
-  });
-}
 
 function resolveDocsHref(currentSlug: string, href: string): string {
   if (!href || href.startsWith("#") || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("tel:")) {
@@ -134,102 +81,97 @@ function resolveDocsHref(currentSlug: string, href: string): string {
 
   return hash ? `${docsPath}#${hash}` : docsPath;
 }
-
-function getLinkMarkDefinition(value: unknown): DocsContentMarkDef | null {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-
-  const candidate = value as DocsContentMarkDef;
-
-  return candidate._type === "link" ? candidate : null;
+function childrenToString(children: any): string {
+  if (typeof children === "string") return children;
+  if (Array.isArray(children)) return children.map(childrenToString).join("");
+  if (children?.props?.children) return childrenToString(children.props.children);
+  return "";
 }
 
-function createPortableTextComponents(currentSlug: string): PortableTextComponents {
-  const renderHeading = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
-    const HeadingRenderer = ({ children }: { children?: ReactNode }) => {
-      const text = getHeadingText(children);
-      const id = slugifyHeading(text);
-
-      return <Tag id={id}>{children}</Tag>;
-    };
-
-    HeadingRenderer.displayName = `PortableText${Tag.toUpperCase()}`;
-
-    return HeadingRenderer;
-  };
-
+function createMarkdownComponents(currentSlug: string) {
   return {
-    block: {
-      h1: renderHeading("h1"),
-      h2: renderHeading("h2"),
-      h3: renderHeading("h3"),
-      h4: renderHeading("h4"),
-      h5: renderHeading("h5"),
-      h6: renderHeading("h6"),
+    h1: ({ node, children, ...props }) => {
+      const id = slugifyHeading(childrenToString(children));
+      return <h1 id={id} {...props}>{children}</h1>;
     },
-    types: {
-      code: ({ value }: { value?: PortableTextCodeBlock }) => {
-        const code = value?.code ?? "";
-        const languageClassName = value?.language ? `language-${value.language}` : undefined;
-
+    h2: ({ node, children, ...props }) => {
+      const id = slugifyHeading(childrenToString(children));
+      return <h2 id={id} {...props}>{children}</h2>;
+    },
+    h3: ({ node, children, ...props }) => {
+      const id = slugifyHeading(childrenToString(children));
+      return <h3 id={id} {...props}>{children}</h3>;
+    },
+    h4: ({ node, children, ...props }) => {
+      const id = slugifyHeading(childrenToString(children));
+      return <h4 id={id} {...props}>{children}</h4>;
+    },
+    h5: ({ node, children, ...props }) => {
+      const id = slugifyHeading(childrenToString(children));
+      return <h5 id={id} {...props}>{children}</h5>;
+    },
+    h6: ({ node, children, ...props }) => {
+      const id = slugifyHeading(childrenToString(children));
+      return <h6 id={id} {...props}>{children}</h6>;
+    },
+    a: ({ node, href, children, ...props }) => {
+      if (!href) {
+        return <>{children}</>;
+      }
+      const resolvedHref = resolveDocsHref(currentSlug, href);
+      if (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("tel:")) {
         return (
-          <pre>
-            <code className={languageClassName}>{code}</code>
-          </pre>
+          <a href={resolvedHref} rel="noreferrer" target="_blank" {...props}>
+            {children}
+          </a>
         );
-      },
+      }
+      return <Link href={resolvedHref} {...props}>{children}</Link>;
     },
-    marks: {
-      link: ({ children, value }) => {
-        const definition = getLinkMarkDefinition(value);
-        const href = resolveDocsHref(currentSlug, definition?.href ?? "");
-
-        if (!href) {
-          return <>{children}</>;
-        }
-
-        if (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("tel:")) {
-          return (
-            <a href={href} rel="noreferrer" target="_blank">
-              {children}
-            </a>
-          );
-        }
-
-        return <Link href={href}>{children}</Link>;
-      },
+    code: ({ node, inline, className, children, ...props }) => {
+      const language = className?.replace("language-", "");
+      return inline ? (
+        <code {...props}>{children}</code>
+      ) : (
+        <pre>
+          <code className={language ? `language-${language}` : undefined} {...props}>
+            {children}
+          </code>
+        </pre>
+      );
     },
   };
 }
 
-function buildSidebarSections(pages: DocsContentPageListItem[]): DocsSidebarSection[] {
-  return docsSectionOrder.flatMap((sectionSlug) => {
-    const sectionItems = pages
-      .filter((page) => page.slug.current.startsWith(`${sectionSlug}/`))
-      .map<DocsSidebarItem>((page) => ({
-        title: page.title,
-        href: `${docsBasePath}/${page.slug.current}`,
-      }));
 
-    if (!sectionItems.length) {
-      return [];
+
+
+
+function buildSidebarSections(pages: DocsPageContent[]): SidebarSection[] {
+  const sections: Record<string, SidebarItem[]> = {};
+  pages.forEach((page) => {
+    const parent = page.frontmatter.parent || "General";
+    if (!sections[parent]) {
+      sections[parent] = [];
     }
-
-    return [
-      {
-        title: docsSectionTitles[sectionSlug],
-        items: sectionItems,
-      },
-    ];
+    sections[parent].push({
+      title: page.frontmatter.title,
+      href: `${docsBasePath}/${page.slug}`,
+    });
   });
+  // Sort sections by parent name
+  return Object.entries(sections)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([title, items]) => ({
+      title,
+      items: items.sort((a, b) => a.title.localeCompare(b.title)),
+    }));
 }
 
 export async function generateStaticParams(): Promise<DocsRouteParams[]> {
   const pages = await getDocsPagesIndex();
-
   return pages.map((page) => ({
-    mdxPath: page.slug.current.split("/").filter(Boolean),
+    mdxPath: page.slug.split("/").filter(Boolean),
   }));
 }
 
@@ -238,38 +180,41 @@ export async function generateMetadata(props: {
 }): Promise<Metadata> {
   const params = await props.params;
   const slug = params.mdxPath.join("/");
-  const [brandSettingsContent, docsContentPage] = await Promise.all([
-    getBrandSettingsContent(),
-    getDocsContentPage(slug),
-  ]);
-
+  const page = await getDocsPage(slug);
+  if (!page) {
+    return {
+      title: "Documentation not found",
+    };
+  }
   return buildDocsMetadata({
-    title: docsContentPage?.title,
-    description: docsContentPage?.description,
-  }, brandSettingsContent.tagline);
+    title: page.frontmatter.title,
+    description: page.frontmatter.description,
+  }, "AI Crew Suite documentation for agentic workflow plugins");
 }
 
 export default async function Page(props: { params: Promise<DocsRouteParams> }) {
   const params = await props.params;
   const slug = params.mdxPath.join("/");
-  const [docsContentPage, pages] = await Promise.all([
-    getDocsContentPage(slug),
+  const [docsPage, pages] = await Promise.all([
+    getDocsPage(slug),
     getDocsPagesIndex(),
   ]);
 
-  if (!docsContentPage) {
+  if (!docsPage) {
     notFound();
   }
 
-  const currentPath = `${docsBasePath}/${params.mdxPath.join("/")}`;
+  const currentPath = `${docsBasePath}/${slug}`;
   const sidebarSections = buildSidebarSections(pages);
-  const serializedToc = buildPortableTextToc(docsContentPage.body);
+  const serializedToc = docsPage.headings.filter((h) => h.depth >= 2 && h.depth <= 6);
   const content = (
     <div className="markdown-content">
-      <PortableText
-        components={createPortableTextComponents(slug)}
-        value={docsContentPage.body}
-      />
+      <ReactMarkdown
+        components={createMarkdownComponents(slug)}
+        remarkPlugins={[remarkGfm]}
+      >
+        {docsPage.content}
+      </ReactMarkdown>
     </div>
   );
 
