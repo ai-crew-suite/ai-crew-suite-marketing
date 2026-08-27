@@ -19,7 +19,9 @@ describe("Blog catch-all page", () => {
     const page = defaultBlogContentPages[0];
     const { default: BlogArticlePage } = await import("./page");
     const markup = renderToStaticMarkup(
-      await BlogArticlePage({ params: Promise.resolve({ mdxPath: [page.slug.current] }) }),
+      await BlogArticlePage({ params: Promise.resolve({ 
+        mdxPath: page.slug.current.split("/").filter(Boolean) 
+      }) }),
     );
 
     expect(markup).toContain(page.title);
@@ -35,7 +37,9 @@ describe("Blog catch-all page", () => {
     const page = defaultBlogContentPages[0];
     const { generateMetadata } = await import("./page");
     const metadata = await generateMetadata({
-      params: Promise.resolve({ mdxPath: [page.slug.current] }),
+      params: Promise.resolve({ 
+        mdxPath: page.slug.current.split("/").filter(Boolean) 
+      }),
     });
 
     expect(metadata.title).toBe(page.title);

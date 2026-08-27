@@ -26,19 +26,24 @@ export async function generateMetadata(props: {
     };
   }
 
-  return {
+  const metadata: Metadata = {
     title: page.title,
-    description: page.description,
-    openGraph: {
+  };
+
+  if (page.description) {
+    metadata.description = page.description;
+    metadata.openGraph = {
       title: page.title,
       description: page.description,
       type: "article",
-    },
-    twitter: {
+    };
+    metadata.twitter = {
       title: page.title,
       description: page.description,
-    },
-  };
+    };
+  }
+
+  return metadata;
 }
 
 export default async function BlogArticlePage(props: { params: Promise<BlogRouteParams> }) {
