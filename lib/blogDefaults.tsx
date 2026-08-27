@@ -2,6 +2,7 @@ import featureImage01 from "@/assets/images/feature-01.jpg";
 import featureImage02 from "@/assets/images/feature-02.jpg";
 import featureImage03 from "@/assets/images/feature-03.jpg";
 import { BlogPageContent, BlogContentPage } from "./blogTypes";
+import { getBlogPageList } from "./blogUtils";
 
 export const defaultBlogPageContent: BlogPageContent = {
   metadata: {
@@ -19,6 +20,40 @@ export const defaultBlogPageContent: BlogPageContent = {
   },
 };
 
+// Mapping from image keys to imported images
+export const blogImageMap: Record<string, any> = {
+  "feature-01": featureImage01,
+  "feature-02": featureImage02,
+  "feature-03": featureImage03,
+};
+
+// Convert markdown-based blog pages to the legacy BlogContentPage format
+// for compatibility with existing components
+export async function getBlogContentPages(): Promise<BlogContentPage[]> {
+  try {
+    const pages = await getBlogPageList();
+    return pages.map((page) => {
+      const imageKey = page.previewImage || "feature-01";
+      const previewImage = blogImageMap[imageKey] || featureImage01;
+      
+      return {
+        title: page.title,
+        description: page.description,
+        publishedAt: page.publishedAt,
+        slug: {
+          current: page.slug,
+        },
+        sourcePath: `${page.slug}/index.mdx`,
+        previewImage,
+      };
+    });
+  } catch (error) {
+    console.error("Failed to load blog pages from markdown, using defaults:", error);
+    return defaultBlogContentPages;
+  }
+}
+
+// Legacy default blog content (fallback if markdown files are missing)
 export const defaultBlogContentPages: BlogContentPage[] = [
   {
     title: "Introducing AI Crew Suite: Eighteen agentic workflow plugins for Backstage",

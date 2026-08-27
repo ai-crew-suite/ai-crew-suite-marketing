@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Newspaper } from "lucide-react";
 import { PageSection } from "@/components/Section";
-import { defaultBlogPageContent, defaultBlogContentPages } from "@/lib/blogDefaults";
+import { defaultBlogPageContent, getBlogContentPages } from "@/lib/blogDefaults";
 
 type BlogCard = {
   href: string;
@@ -20,8 +20,9 @@ export function generateMetadata(): Metadata {
   };
 }
 
-function buildBlogCards(): BlogCard[] {
-  return defaultBlogContentPages.map<BlogCard>((item) => {
+async function buildBlogCards(): Promise<BlogCard[]> {
+  const blogPages = await getBlogContentPages();
+  return blogPages.map<BlogCard>((item) => {
     const previewImage = typeof item.previewImage === 'string' 
       ? item.previewImage 
       : item.previewImage.src;
@@ -36,8 +37,8 @@ function buildBlogCards(): BlogCard[] {
   });
 }
 
-export default function BlogHomePage() {
-  const posts = buildBlogCards();
+export default async function BlogHomePage() {
+  const posts = await buildBlogCards();
 
   return (
     <main className="relative mx-auto flex w-full flex-col gap-8 pb-16 pt-24">

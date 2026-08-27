@@ -25,3 +25,30 @@ export type BlogContentPage = {
   sourcePath?: string;
   previewImage: StaticImageData | string;
 };
+
+// New types for markdown-based blog posts
+export type BlogPageFrontmatter = {
+  title: string;
+  description?: string;
+  publishedAt?: string;
+  previewImage?: string;
+  author?: string;
+  tags?: string[];
+};
+
+export type BlogPageContentMarkdown = {
+  slug: string;
+  frontmatter: BlogPageFrontmatter;
+  content: string;
+  headings: { depth: number; value: string; id: string }[];
+};
+
+export type BlogPageListItem = {
+  title: string;
+  slug: string;
+  description?: string;
+  publishedAt?: string;
+  previewImage?: string;
+  author?: string;
+  tags?: string[];
+};

@@ -1,11 +1,21 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
-import { defaultBlogPageContent, defaultBlogContentPages } from "@/lib/blogDefaults";
+import { describe, expect, it, vi } from "vitest";
+import { defaultBlogPageContent, defaultBlogContentPages, getBlogContentPages } from "@/lib/blogDefaults";
 import BlogHomePage from "./page";
+
+vi.mock("@/lib/blogDefaults", async (importOriginal) => {
+  const actual = await importOriginal() as any;
+  return {
+    ...actual,
+    getBlogContentPages: vi.fn(),
+  };
+});
 
 describe("Blog home page", () => {
   it("renders article cards from hardcoded blog content", async () => {
-    const markup = renderToStaticMarkup(<BlogHomePage />);
+    vi.mocked(getBlogContentPages).mockResolvedValue(defaultBlogContentPages);
+    
+    const markup = renderToStaticMarkup(await BlogHomePage());
 
     expect(markup).toContain(defaultBlogPageContent.hero.title);
     expect(markup).toContain(defaultBlogPageContent.hero.description);
