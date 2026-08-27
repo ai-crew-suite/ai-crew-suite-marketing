@@ -20,7 +20,6 @@ const fallbackLastModified = new Date("2026-06-02T00:00:00.000Z");
 
 const staticRouteDefinitions: SitemapRouteDefinition[] = [
   { path: "/", documentType: "homePage", changeFrequency: "weekly", priority: 1 },
-  { path: "/pricing", documentType: "pricingPage", changeFrequency: "weekly", priority: 0.9 },
   { path: "/tour", documentType: "tourPage", changeFrequency: "weekly", priority: 0.9 },
   { path: "/blog", documentType: "blogPage", changeFrequency: "weekly", priority: 0.85 },
   { path: "/docs", documentType: "docsPage", changeFrequency: "weekly", priority: 0.85 },

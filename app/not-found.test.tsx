@@ -14,7 +14,6 @@ describe("NotFound", () => {
     expect(markup).toContain('href="/"');
     expect(markup).toContain('href="/blog"');
     expect(markup).toContain('href="/tour"');
-    expect(markup).toContain('href="/pricing"');
     expect(markup).toContain('href="/docs"');
     expect(markup).toContain('href="/signup"');
   });

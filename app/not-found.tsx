@@ -7,17 +7,12 @@ const recoveryLinks = [
   {
     href: "/tour",
     label: "How It Works",
-    description: "See how Digest Engine ranks, summarizes, and drafts from your source mix.",
-  },
-  {
-    href: "/pricing",
-    label: "Pricing",
-    description: "Compare the open-source and hosted paths before you jump back in.",
+    description: "See how AI Crew Suite automates workflows across your Backstage plugins.",
   },
   {
     href: "/docs",
     label: "Docs",
-    description: "Browse setup guides, product notes, and the current platform capabilities.",
+    description: "Browse setup guides, plugin documentation, and platform capabilities.",
   },
   {
     href: "/signup",
@@ -48,7 +43,7 @@ export default function NotFound() {
               Page not found
             </h1>
             <p className='max-w-2xl text-base leading-7 text-content-offset sm:text-lg'>
-              This link is gone or moved, but the main parts of the marketing site are still easy to reach. Jump back into the tour, docs, pricing, or signup flow from here.
+              This link is gone or moved, but the main parts of the marketing site are still easy to reach. Jump back into the tour, docs, or signup flow from here.
             </p>
           </div>
 

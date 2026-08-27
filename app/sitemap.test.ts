@@ -80,7 +80,7 @@ describe("Marketing sitemap", () => {
 
     expect(routes).toContainEqual(
       expect.objectContaining({
-        url: "https://digestengine.io/pricing",
+        url: "https://digestengine.io/tour",
         lastModified: new Date("2026-06-02T00:00:00.000Z"),
       }),
     );

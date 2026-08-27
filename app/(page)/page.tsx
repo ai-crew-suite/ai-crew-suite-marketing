@@ -3,7 +3,6 @@ import FAQ from "@/components/HomePage/FAQ";
 import Features from "@/components/HomePage/Features";
 import Hero from "@/components/HomePage/Hero";
 import Solution from "@/components/HomePage/Solution";
-import Pricing from "@/components/Pricing";
 import Problems from "@/components/HomePage/Problems";
 import { CTA } from "@/components/HomePage/CTA";
 import {
@@ -14,7 +13,6 @@ import {
   defaultHomePageFaqProps,
   defaultCtaProps,
 } from "@/lib/homePageDefaults";
-import { defaultPricingComponentContent } from "@/lib/pricingDefaults";
 
 export default function Home() {
   return (
@@ -24,7 +22,6 @@ export default function Home() {
       {/** <Clients {...homePageContent.clients} /> */}
       <Solution {...defaultSolutionProps} />
       <Features {...defaultFeatureItems} />
-      <Pricing content={defaultPricingComponentContent} />
       <FAQ {...defaultHomePageFaqProps} />
       <CTA {...defaultCtaProps} />
     </main>

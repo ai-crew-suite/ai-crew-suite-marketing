@@ -31,12 +31,6 @@ vi.mock("@/sanity/queries/globalErrorPage", () => ({
           "Walk back through the product tour while the failed route reloads in a fresh tab or session.",
       },
       {
-        href: "/pricing",
-        label: "Pricing",
-        description:
-          "Double-check the hosted and self-managed rollout paths if that is where you were headed.",
-      },
-      {
         href: "/docs",
         label: "Docs",
         description:
@@ -66,12 +60,6 @@ vi.mock("@/sanity/queries/globalErrorPage", () => ({
         label: "How It Works",
         description:
           "Walk back through the product tour while the failed route reloads in a fresh tab or session.",
-      },
-      {
-        href: "/pricing",
-        label: "Pricing",
-        description:
-          "Double-check the hosted and self-managed rollout paths if that is where you were headed.",
       },
       {
         href: "/docs",
@@ -108,7 +96,6 @@ describe("GlobalError", () => {
     expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Return home" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: /How It Works/i })).toHaveAttribute("href", "/tour");
-    expect(screen.getByRole("link", { name: /^Pricing/i })).toHaveAttribute("href", "/pricing");
     expect(screen.getByRole("link", { name: /^Docs/i })).toHaveAttribute("href", "/docs");
     expect(screen.getByRole("link", { name: /^Sign Up/i })).toHaveAttribute("href", "/signup");
   });

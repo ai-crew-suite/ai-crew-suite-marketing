@@ -20,8 +20,8 @@ vi.mock("@/sanity/queries/tourPage", () => ({
         link: "/signup",
       },
       secondaryAction: {
-        text: "View pricing",
-        link: "/pricing",
+        text: "Learn more",
+        link: "/docs",
       },
     },
     highlightsSection: {

@@ -19,8 +19,8 @@ vi.mock("@/sanity/queries/signupPage", () => ({
       description:
         "Digest Engine is designed for editors who want better sourcing, stronger prioritization, and less blank-page friction. Fill out the form and we will help you start with the right setup.",
       primaryAction: {
-        text: "Compare plans",
-        link: "/pricing",
+        text: "Request access",
+        link: "#form",
       },
       secondaryAction: {
         text: "Read the docs",
@@ -64,6 +64,6 @@ describe("SignupPage", () => {
     expect(markup).toContain("Request access");
     expect(markup).toContain("Signup login notice");
     expect(markup).toContain('aria-label="Signup next steps"');
-    expect(markup).toContain('href="/pricing"');
+    expect(markup).toContain('href="#form"');
   });
 });
